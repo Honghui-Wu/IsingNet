@@ -49,3 +49,6 @@ samples_df = pd.DataFrame([{**{
 }, **{
     f"spin_{i}": spins[i] for i in range(len(spins))
 }, "hamiltonian": hamiltonian} for sample in samples for weights, spins, hamiltonian in [(sample["edge_weights"], sample["spins"], sample["hamiltonian"])]])
+
+# Save the DataFrame to a CSV file
+samples_df.to_csv("./1d_straight/1d_straight_ising_model_samples.csv", index=False)
