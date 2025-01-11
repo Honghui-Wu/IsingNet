@@ -1,6 +1,5 @@
+'''Generate Samples'''
 import pandas as pd
-
-
 from gensamples import StraightIsingSamplesGenerator
 
 # create an object
@@ -22,3 +21,34 @@ samples_df = pd.DataFrame([{**{
 
 # Save the DataFrame to a CSV file
 samples_df.to_csv("./1d_straight/1d_straight_ising_model_samples.csv", index=False)
+
+
+
+
+'''Train model'''
+import numpy as np
+import linear_regression
+from linear_regression import LinearRegressor
+
+
+data = samples_df
+X = data.iloc[:,0:num_edges]
+y = data['hamiltonian']
+
+X_feat = linear_regression.featurization(X)
+
+linear_regressor = LinearRegressor(X_feat,y)
+
+lr=0.01
+num_iters=500
+
+theta, J_hist = linear_regressor.gradient_descent(num_iters, lr)
+
+
+import matplotlib.pyplot as plt
+# Plot cost function history
+plt.plot(range(num_iters), J_hist)
+plt.xlabel("Number of iterations")
+plt.ylabel("Cost (J)")
+plt.title("Cost function history")
+plt.show()
